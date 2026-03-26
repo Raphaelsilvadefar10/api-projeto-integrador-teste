@@ -1,0 +1,103 @@
+# ─── CLIENTES ────────────────────────────────────────────────────────────────
+
+### Criar cliente
+POST http://localhost:3000/clientes
+Content-Type: application/json
+
+{
+  "nome": "Maria",
+  "email": "Maria@email.com"
+}
+
+###
+
+### Listar todos os clientes
+GET http://localhost:3000/clientes
+
+###
+
+### Buscar cliente por id
+GET http://localhost:3000/clientes/2
+
+###
+
+### Buscar cliente por nome (busca parcial)
+GET http://localhost:3000/clientes?nome=M
+
+###
+
+# ─── PRODUTOS ────────────────────────────────────────────────────────────────
+
+### Criar produto
+POST http://localhost:3000/produtos
+Content-Type: application/json
+
+{
+  "nome": "Tenis azul",
+  "preco": 400,
+  "estoque": 2
+}
+
+###
+
+### Listar todos os produtos
+GET http://localhost:3000/produtos
+
+###
+
+### Buscar produto por id
+GET http://localhost:3000/produtos/2
+
+###
+
+### Buscar produto por nome (busca parcial)
+GET http://localhost:3000/produtos?nome=Tenis azul
+
+###
+
+# ─── VENDAS ──────────────────────────────────────────────────────────────────
+
+### Criar venda com um produto
+POST http://localhost:3000/vendas
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "itens": [
+    { "produtoId": 2, "quantidade": 1 }
+  ]
+}
+
+###
+
+### Criar venda com múltiplos produtos
+POST http://localhost:3000/vendas
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "itens": [
+    { "produtoId": 1, "quantidade": 2 },
+    { "produtoId": 89, "quantidade": 1 }
+  ]
+}
+
+###
+
+### Criar venda com estoque insuficiente (deve retornar erro)
+POST http://localhost:3000/vendas
+Content-Type: application/json
+
+{
+  "clienteId": 1,
+  "itens": [
+    { "produtoId": 1, "quantidade": 9999 }
+  ]
+}
+
+###
+
+### Listar todas as vendas
+GET http://localhost:3000/vendas
+
+###
