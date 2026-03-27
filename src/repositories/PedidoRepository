@@ -1,0 +1,39 @@
+import db from '../database/database';
+import { pedidos } from '../models/pedidos'
+
+export class PedidoRepository {
+    salvar(pedidos: pedidos): pedidos {
+        const resultado = db
+            .prepare ('INSERT INTO pedidos (id_cliente, data_pedido, status, valor_total, tipo_entrega) VALUES (?, ?, ?, ?, ?)')
+            .run(pedidos.id_cliente, pedidos.data_pedido, pedidos.status, pedidos.valor_total, pedidos.tipo_entrega);
+        return {...pedidos, id: resultado.lastInsertRowid as number};
+    }
+
+    listar(): pedidos[] {
+        return db.prepare('SELECT * FROM pedidos').all() as pedidos[];
+    }
+
+    buscarPorId(id: number): pedidos | null {
+        return db.prepare('SELECT * FROM pedidos WHERE id = ?').get(id) as pedidos | null
+    }
+
+    buscarPorIdCliente(id_cliente: number): pedidos[] {
+        return db.prepare('SELECT * FROM pedidos WHERE id_cliente = ?').all(id_cliente) as pedidos[];
+    }
+
+    buscarPorStatus(status: string): pedidos[] {
+        return db.prepare('SELECT * FROM pedidos WHERE status = ?').all(status) as pedidos[];
+    }
+
+    buscarPorData(data_pedido: string): pedidos[] {
+        return db.prepare('SELECT * FROM pedidos WHERE data_pedido = ?').all(data_pedido) as pedidos[];
+    }
+
+    buscarPorValorTotal(valor_total: number): pedidos[] {
+        return db.prepare('SELECT * FROM pedidos WHERE valor_total = ?').all(valor_total) as pedidos[];
+    }
+
+    buscarPorTipoEntrega(tipo_entrega: string): pedidos[] {
+        return db.prepare('SELECT * FROM pedidos WHERE tipo_entrega = ?').all(tipo_entrega) as pedidos[];
+    }
+}
